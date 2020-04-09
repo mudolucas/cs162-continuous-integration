@@ -37,7 +37,7 @@ class TestCases(unittest.TestCase):
         with engine.connect() as connection:
             query = connection.execute("SELECT COUNT('*') FROM Expression FETCH FIRST 1 ROWS ONLY")
             rows = query.fetchall()
-            print(rows)
+            print(rows[0])
             self.assertEqual(len(rows),0)
 
 if __name__ == '__main__':
