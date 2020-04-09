@@ -5,7 +5,7 @@ import psycopg2
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker, mapper
 
-DATABASE_URI = 'postgres+psycopg2://cs162_user:cs162_password@localhost:5432/cs162'
+DATABASE_URI = 'postgres+psycopg2://cs162_user:cs162_password@127.0.0.1:5432/cs162'
 
 class Exps(object):
     pass
