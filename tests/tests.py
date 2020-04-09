@@ -21,14 +21,14 @@ class TestCases(unittest.TestCase):
         self.assertIn('28',r.text)
 
     def test_expression_db(self):
-        r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+21'})
+        r = requests.post('http://127.0.0.1:5000/add', data={'expression': '10+30'})
         with engine.connect() as connection:
-            query = connection.execute("SELECT COUNT('*') FROM Expression WHERE text='7+21'")
+            query = connection.execute("SELECT COUNT('*') FROM Expression WHERE text='10+30'")
             rows = query.fetchall()
             self.assertEqual(len(rows),1)
 
     def test_invalid_expression(self):
-        r = requests.post('http://127.0.0.1:5000/add', data={'expression': '10+'})
+        r = requests.post('http://127.0.0.1:5000/add', data={'expression': '20+'})
         # Check for internal server error
         self.assertEqual(r.status_code, 500)
         with engine.connect() as connection:
