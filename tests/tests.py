@@ -21,7 +21,6 @@ class TestCases(unittest.TestCase):
     def test_correct_expression(self):
         r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+22'})
         self.assertEqual(r.status_code, 200)
-        print(r.text)
         self.assertIn('29',r.text)
 
     def test_expression_db(self):
@@ -38,6 +37,7 @@ class TestCases(unittest.TestCase):
         with engine.connect() as connection:
             query = connection.execute("SELECT COUNT('*') FROM Expression")
             rows = query.fetchall()
+            print(rows)
             self.assertEqual(len(rows),0)
 
 if __name__ == '__main__':
