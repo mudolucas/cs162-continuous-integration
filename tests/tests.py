@@ -35,7 +35,8 @@ class TestCases(unittest.TestCase):
         # Check for internal server error
         self.assertEqual(r.status_code, 500)
         with engine.connect() as connection:
-            query = connection.execute("SELECT COUNT('*') FROM Expression FETCH FIRST 1 ROWS ONLY")
+            query = connection.execute("SELECT COUNT('*') FROM Expression LIMIT 1")
+            print(query)
             rows = query.fetchall()
             print(rows[0])
             self.assertEqual(len(rows),0)
