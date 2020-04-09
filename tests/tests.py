@@ -38,7 +38,7 @@ class TestCases(unittest.TestCase):
             query = connection.execute("SELECT COUNT('*') FROM Expression LIMIT 1")
             print(query)
             rows = query.fetchall()
-            print(rows[0])
+            print(rows[0][0])
             self.assertEqual(len(rows),0)
 
 if __name__ == '__main__':
