@@ -10,17 +10,19 @@ DATABASE_URI = 'postgres+psycopg2://cs162_user:cs162_password@localhost:5432/cs1
 class Exps(object):
     pass
 
-class TestCases(unittest.TestCase):
-    def setUp(self):
-        self.engine = create_engine(DATABASE_URI)
-        self.Session = sessionmaker(bind=self.engine)
-        self.metadata = MetaData(self.engine)
-        self.expressions = Table('expression', self.metadata, autoload=True)
-        self.mapper(Exps, self.expressions)
-        self.s = self.Session()
+engine = create_engine(DATABASE_URI)
+Session = sessionmaker(bind=engine)
+metadata = MetaData(engine)
+expressions = Table('expression', metadata, autoload=True)
+mapper(Exps, expressions)
 
+class TestCases(unittest.TestCase):
+    
+    def setUp(self):
+        s = Session()
+        
     def tearDown(self):
-        self.connection.close()
+        s.close()
 
     def test_correct_expression(self):
         r = requests.post('http://localhost:5000/add', data={'expression': '7+21'})
@@ -30,7 +32,7 @@ class TestCases(unittest.TestCase):
 
     def test_expression_db(self):
         r = requests.post('http://localhost:5000/add', data={'expression': '7+21'})
-        query = self.s.query(Exps).all()
+        query = s.query(Exps).all()
         self.assertEqual(len(query),1)
 
     def test_invalid_expression(self):
@@ -38,7 +40,7 @@ class TestCases(unittest.TestCase):
         # Check for internal server error
         self.assertEqual(r.status_code, 500)
 
-        query = self.s.query(Exps).all()
+        query = s.query(Exps).all()
         self.assertEqual(len(query), 0)
 
 
