@@ -8,14 +8,11 @@ import psycopg2
 DB_URI = 'postgresql://cs162_user:cs162_password@127.0.0.1/cs162?port=5432'
 
 class TestCases(unittest.TestCase):
-
+    engine = create_engine(DB_URI)
+    
     def setUp(self):
-        self.engine = create_engine(DB_URI)
-        self.connection = self.engine.connect()
-        self.conection.execute("DELETE FROM Expression")
-
-    def tearDown(self):
-        self.connection.close()
+        with engine.connect() as connection:
+            conection.execute("DELETE FROM Expression")
 
     def test_correct_expression(self):
         r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+21'})
@@ -25,8 +22,9 @@ class TestCases(unittest.TestCase):
 
     def test_expression_db(self):
         r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+21'})
-        query = self.connection.execute("SELECT COUNT('*') FROM Expression WHERE text='7+21'")
-        rows = query.fetchall()
+        with engine.connect() as connection:
+            query = connection.execute("SELECT COUNT('*') FROM Expression WHERE text='7+21'")
+            rows = query.fetchall()
 
         self.assertEqual(len(rows),1)
 
@@ -34,9 +32,9 @@ class TestCases(unittest.TestCase):
         r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+'})
         # Check for internal server error
         self.assertEqual(r.status_code, 500)
-
-        query = self.connection.execute("SELECT COUNT('*') FROM Expression")
-        rows = query.fetchall()
+        with engine.connect() as connection:
+            query = connection.execute("SELECT COUNT('*') FROM Expression")
+            rows = query.fetchall()
 
         self.assertEqual(len(rows),0)
 
