@@ -12,7 +12,7 @@ class TestCases(unittest.TestCase):
     
     def setUp(self):
         with engine.connect() as connection:
-            connection.execute("DELETE FROM Expression")
+            connection.execute("DELETE FROM expression")
 
     def test_correct_expression(self):
         r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+21'})
