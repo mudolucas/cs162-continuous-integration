@@ -19,10 +19,10 @@ class TestCases(unittest.TestCase):
             connection.execute("DELETE FROM Expression")
 
     def test_correct_expression(self):
-        r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+21'})
+        r = requests.post('http://127.0.0.1:5000/add', data={'expression': '7+22'})
         self.assertEqual(r.status_code, 200)
         print(r.text)
-        self.assertIn('28',r.text)
+        self.assertIn('29',r.text)
 
     def test_expression_db(self):
         r = requests.post('http://127.0.0.1:5000/add', data={'expression': '10+30'})
