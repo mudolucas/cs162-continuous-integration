@@ -29,6 +29,7 @@ class TestCases(unittest.TestCase):
             query = connection.execute("SELECT COUNT('*') FROM Expression WHERE text='10+30'")
             rows = query.fetchall()
             self.assertEqual(len(rows),1)
+            self.assertEqual(rows[0][0],1)
 
     def test_invalid_expression(self):
         r = requests.post('http://127.0.0.1:5000/add', data={'expression': '20+'})
@@ -36,10 +37,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(r.status_code, 500)
         with engine.connect() as connection:
             query = connection.execute("SELECT COUNT('*') FROM Expression LIMIT 1")
-            print(query)
-            rows = query.fetchall()
-            print(rows[0][0])
-            self.assertEqual(len(rows),0)
+            self.assertEqual(rows[0][0],0)
 
 if __name__ == '__main__':
     unittest.main()
