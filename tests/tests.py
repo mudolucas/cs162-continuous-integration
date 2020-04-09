@@ -6,9 +6,9 @@ from sqlalchemy.orm import sessionmaker, mapper
 import psycopg2
 
 DB_URI = 'postgresql://cs162_user:cs162_password@127.0.0.1/cs162?port=5432'
+engine = create_engine(DB_URI)
 
 class TestCases(unittest.TestCase):
-    engine = create_engine(DB_URI)
     
     def setUp(self):
         with engine.connect() as connection:
