@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3.6-alpine3.10
 MAINTAINER Philip Sterne "psterne@minerva.kgi.edu"
 
 COPY requirements.txt .
