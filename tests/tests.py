@@ -37,6 +37,7 @@ class TestCases(unittest.TestCase):
         self.assertEqual(r.status_code, 500)
         with engine.connect() as connection:
             query = connection.execute("SELECT COUNT('*') FROM Expression LIMIT 1")
+            rows = query.fetchall()
             self.assertEqual(rows[0][0],0)
 
 if __name__ == '__main__':
